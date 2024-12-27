@@ -117,13 +117,68 @@
     }
 
     @@media print {
-        .mt-4 {
-            display: none;
+    /* Clean print layout */
+    body {
+        background: white;
+        padding: 20px;
+    }
+
+        .contact-info,
+        .social-icons,
+        .footer,
+        .about-section,
+        .hours-section,
+        .copyright {
+            display: none !important;
         }
 
-        .receipt-container {
-            box-shadow: none;
-            padding: 0;
-        }
+    .receipt-container {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
     }
+
+    /* Hide unnecessary elements */
+    .navbar,
+    .footer,
+    .action-buttons,
+    .btn {
+        display: none !important;
+    }
+
+    /* Ensure full content width */
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Improve table printing */
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd;
+    }
+
+    /* Force background colors and text */
+    .status-badge {
+        border: 1px solid #000;
+        color: #000 !important;
+        background: none !important;
+    }
+        /* Hide URL and page numbers */
+    @@page {
+        margin: 0.5cm;
+    }
+
+    /* Hide URL display */
+    a[href]:after {
+        content: none !important;
+    }
+}
 </style>
