@@ -2,19 +2,19 @@
 
 <div class="receipt-container">
     <div class="receipt-header">
-        <h2>Payment Receipt</h2>
-        <p class="receipt-info">Receipt #@Model.PaymentId</p>
-        <p class="receipt-date">@Model.PaymentTime.ToString()</p>
+        <h1>Payment Receipt</h1>
+        <p>Receipt #@Model.PaymentId</p>
+        <p>@Model.PaymentTime.ToString()</p>
     </div>
 
-    <div class="customer-section">
-        <h4>Customer Information</h4>
-        <p><strong>Name:</strong> @Model.Order.Customer.Name</p>
+    <div class="section">
+        <h2>Customer Information</h2>
+        <p>Name: @Model.Order.Customer.Name</p>
     </div>
 
-    <div class="order-items">
-        <h4>Order Items</h4>
-        <table class="table">
+    <div class="section">
+        <h2>Order Items</h2>
+        <table>
             <thead>
                 <tr>
                     <th>Item</th>
@@ -36,149 +36,93 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3" class="text-end"><strong>Total Amount:</strong></td>
-                    <td><strong>@Model.Amount.ToString("C")</strong></td>
+                    <td colspan="3">Total Amount:</td>
+                    <td>@Model.Amount.ToString("C")</td>
                 </tr>
             </tfoot>
         </table>
     </div>
 
-    <div class="payment-details">
-        <h4>Payment Information</h4>
-        <p><strong>Method:</strong> @Model.PaymentMethod</p>
-        <p><strong>Payment Time:</strong> @Model.PaymentTime.ToString()</p>
-    </div>
-
-    <div class="mt-4">
-        <button onclick="window.print()" class="btn btn-primary">
-            <i class="bi bi-printer"></i> Print Receipt
-        </button>
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+    <div class="section">
+        <h2>Payment Information</h2>
+        <p>Method: @Model.PaymentMethod</p>
+        <p>Payment Time: @Model.PaymentTime.ToString()</p>
     </div>
 </div>
 
 <style>
     .receipt-container {
-        max-width: 800px;
-        margin: 2rem auto;
-        padding: 2rem;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        color: #333;
     }
 
     .receipt-header {
         text-align: center;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid #ffc107;
+        margin-bottom: 30px;
     }
 
-    .receipt-info {
+    .receipt-header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .receipt-header p {
+        margin: 5px 0;
         color: #666;
-        margin: 0.5rem 0;
     }
 
-    .customer-section,
-    .order-items,
-    .payment-details {
-        margin-bottom: 2rem;
+    .section {
+        margin-bottom: 30px;
     }
 
-    h4 {
-        color: #343a40;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #dee2e6;
+    h2 {
+        font-size: 18px;
+        border-bottom: 2px solid #ffd700;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
     }
 
-    .table {
+    table {
         width: 100%;
-        margin-bottom: 1rem;
+        border-collapse: collapse;
+        margin: 10px 0;
     }
 
-        .table th {
-            background-color: #f8f9fa;
-        }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-        .table th,
-        .table td {
-            padding: 0.75rem;
-            vertical-align: middle;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .table tfoot {
-            font-weight: bold;
-        }
-
-    .text-end {
-        text-align: right;
+    tfoot td {
+        font-weight: bold;
+        border-top: 2px solid #ddd;
     }
 
     @@media print {
-    /* Clean print layout */
-    body {
-        background: white;
-        padding: 20px;
-    }
-
-        .contact-info,
-        .social-icons,
-        .footer,
-        .about-section,
-        .hours-section,
-        .copyright {
-            display: none !important;
+        body * {
+            visibility: hidden;
         }
 
-    .receipt-container {
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
-    }
+        .receipt-container, .receipt-container * {
+            visibility: visible;
+        }
 
-    /* Hide unnecessary elements */
-    .navbar,
-    .footer,
-    .action-buttons,
-    .btn {
-        display: none !important;
-    }
+        .receipt-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin: 0;
+            padding: 20px;
+        }
 
-    /* Ensure full content width */
-    .container {
-        width: 100%;
-        max-width: none;
-        padding: 0;
-        margin: 0;
+        @@page {
+            margin: 2cm;
+            size: auto;
+        }
     }
-
-    /* Improve table printing */
-    .table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    .table th,
-    .table td {
-        border: 1px solid #ddd;
-    }
-
-    /* Force background colors and text */
-    .status-badge {
-        border: 1px solid #000;
-        color: #000 !important;
-        background: none !important;
-    }
-        /* Hide URL and page numbers */
-    @@page {
-        margin: 0.5cm;
-    }
-
-    /* Hide URL display */
-    a[href]:after {
-        content: none !important;
-    }
-}
 </style>
