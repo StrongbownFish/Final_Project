@@ -1,0 +1,106 @@
+﻿@model Final_Project.Models.Order
+
+<div class="order-details">
+    <h2>
+        <i class="bi bi-journal-text"></i> Order Details #@Model.OrderId
+    </h2>
+
+    <div class="info-section">
+        <p><strong>Order Time:</strong> @Model.OrderTime.ToString()</p>
+        <p><strong>Customer:</strong> @Model.Customer.Name</p>
+        <p><strong>Status:</strong> <span class="status-badge status-@Model.Status.ToLower()">@Model.Status</span></p>
+    </div>
+
+    <h3>Ordered Items</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@item.MenuItem.Name</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.Quantity</td>
+                        <td>@((item.Price * item.Quantity).ToString("C"))</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Total Amount:</strong></td>
+                    <td><strong class="text-success">@Model.TotalAmount.ToString("C")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    @if (Model.Status == "Completed" && Model.Payments.Any())
+    {
+        var payment = Model.Payments.First();
+        <div class="payment-section">
+            <h3>Payment Information</h3>
+            <div class="payment-details">
+                <p><strong>Payment Method:</strong> @payment.PaymentMethod</p>
+                <p><strong>Payment Time:</strong> @payment.PaymentTime.ToString()</p>
+                <p><strong>Amount Paid:</strong> @payment.Amount.ToString("C")</p>
+            </div>
+        </div>
+    }
+
+    <div class="mt-4">
+        @Html.ActionLink("Edit Order", "Edit", new { id = Model.OrderId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+    </div>
+</div>
+
+<style>
+    .order-details {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .info-section {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 20px 0;
+    }
+
+    .payment-section {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border-left: 4px solid #28a745;
+    }
+
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.875rem;
+    }
+
+    .status-completed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+    }
+</style>

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Final_Project.Models.Customer>
+
+@{
+    ViewBag.Title = "Customers";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-people"></i> Customers</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> New Customer
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>
+                                <i class="bi bi-person me-2"></i>Name
+                            </th>
+                            <th>
+                                <i class="bi bi-envelope me-2"></i>Email
+                            </th>
+                            <th>
+                                <i class="bi bi-telephone me-2"></i>Phone
+                            </th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-circle text-muted me-2"></i>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a href="mailto:@item.Email" class="text-decoration-none">
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a href="tel:@item.Phone" class="text-decoration-none">
+                                            @Html.DisplayFor(modelItem => item.Phone)
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", new { id = item.CustomerId })" class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.CustomerId })" class="btn btn-sm btn-outline-info" title="Details">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.CustomerId })" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td {
+        vertical-align: middle;
+        padding: 1rem 0.75rem;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .bi {
+        font-size: 1.1rem;
+    }
+
+    a.text-decoration-none {
+        color: inherit;
+    }
+
+        a.text-decoration-none:hover {
+            color: #0d6efd;
+        }
+</style>

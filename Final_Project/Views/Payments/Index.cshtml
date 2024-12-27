@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Final_Project.Models.Order>
+
+<div class="container">
+    <h2>Payments Management</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Order Time</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>#@order.OrderId</td>
+                    <td>@(order.Customer?.Name ?? "N/A")</td>
+                    <td>@(order.OrderTime?.ToString("MM/dd/yyyy h:mm:ss tt") ?? "N/A")</td>
+                    <td>$@order.TotalAmount</td>
+                    <td>@order.Status</td>
+                    <td>
+                        <a href="@Url.Action("Create", "Payments", new { id = order.OrderId })" class="btn btn-success">Pay</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .order-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #ffc107;
+    }
+
+    .order-title {
+        font-size: 1.75rem;
+        color: #343a40;
+        margin: 0;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .btn-create {
+        background-color: #28a745;
+        color: white !important;
+    }
+
+        .btn-create:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+    .btn-view {
+        background-color: #e7f5ff;
+        color: #0056b3 !important;
+    }
+
+    .btn-receipt {
+        background-color: #e3f2fd;
+        color: #117a8b !important;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .amount {
+        font-family: monospace;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 768px) {
+        .order-header {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>

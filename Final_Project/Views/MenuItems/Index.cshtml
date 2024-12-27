@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Final_Project.Models.MenuItem>
+
+@{
+    ViewBag.Title = "Menu Items";
+}
+
+<div class="container mt-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-menu-button-wide"></i> Menu Items</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Item
+        </a>
+    </div>
+
+    <!-- Menu Items Grid -->
+    <div class="row" id="menuItemsContainer">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4 menu-item">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">@item.Name</h5>
+                            <span class="badge bg-primary">$@item.Price.ToString("0.00")</span>
+                        </div>
+                        <p class="card-text text-muted">@item.Description</p>
+                        <div class="d-flex justify-content-end">
+                            <div class="btn-group">
+                                <a href="@Url.Action("Edit", new { id = item.MenuItemId })" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="@Url.Action("Details", new { id = item.MenuItemId })" class="btn btn-sm btn-outline-info">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.MenuItemId })" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+        border: none;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 0.8em;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .card-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+</style>

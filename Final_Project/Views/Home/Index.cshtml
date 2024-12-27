@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center mb-4">
+            <h1>Welcome to KTPham Restaurant</h1>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar-check display-4 text-primary mb-3"></i>
+                    <h3>Make a Reservation</h3>
+                    <p>Book your table online for the best dining experience</p>
+                    <a href="@Url.Action("Index", "Reservations")" class="btn btn-outline-primary">Reserve Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-menu-button-wide display-4 text-primary mb-3"></i>
+                    <h3>Our Menu</h3>
+                    <p>Explore our wide selection of delicious dishes</p>
+                    <a href="@Url.Action("Index", "MenuItems")" class="btn btn-outline-primary">View Menu</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-clock display-4 text-primary mb-3"></i>
+                    <h3>Opening Hours</h3>
+                    <p>Mon-Fri: 11:00 AM - 10:00 PM<br>Sat-Sun: 10:00 AM - 11:00 PM</p>
+                    <a href="#" class="btn btn-outline-primary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">About Our Restaurant</h3>
+                    <p class="text-center">
+                        At KTPham Restaurant, we pride ourselves on delivering exceptional dining experiences.
+                        Our professional staff and skilled chefs work together to ensure your visit is memorable.
+                        Whether you're planning a romantic dinner, family gathering, or business meeting,
+                        we provide the perfect setting with outstanding service and delicious cuisine.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease-in-out;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .display-4 {
+        font-size: 3rem;
+    }
+
+    .lead {
+        font-size: 1.5rem;
+        color: #6c757d;
+    }
+</style>

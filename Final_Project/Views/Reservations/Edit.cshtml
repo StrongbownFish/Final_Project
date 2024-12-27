@@ -1,0 +1,90 @@
+﻿@model Final_Project.Models.Reservation
+
+@{
+    ViewBag.Title = "Edit Reservation";
+    // Format the date for the datetime-local input
+    var reservationDateTime = Model.ReservationTime.ToString("yyyy-MM-ddTHH:mm");
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-pencil-square"></i> Edit Reservation
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.ReservationId)
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.CustomerId, "Customer", new { @class = "form-label" })
+                            @Html.DropDownList("CustomerId", null, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.CustomerId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.TableId, "Table", new { @class = "form-label" })
+                            @Html.DropDownList("TableId", null, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.TableId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.ReservationTime, "Reservation Time", new { @class = "form-label" })
+                            @Html.EditorFor(m => m.ReservationTime, new { htmlAttributes = new { @class = "form-control", type = "datetime-local", Value = reservationDateTime } })
+                            @Html.ValidationMessageFor(m => m.ReservationTime, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Status, new { @class = "form-label" })
+                            @Html.DropDownListFor(m => m.Status, new SelectList(new[] { "Pending", "Confirmed", "Cancelled", "Completed" }), "Select Status", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        margin: 0 5px;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

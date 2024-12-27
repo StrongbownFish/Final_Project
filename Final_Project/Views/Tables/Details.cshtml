@@ -1,0 +1,137 @@
+﻿@model Final_Project.Models.Table
+
+@{
+    ViewBag.Title = "Table Details";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-grid-3x3"></i> Table Details
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted">Table Number</label>
+                                <div class="detail-value">
+                                    <i class="bi bi-hash me-2"></i>
+                                    Table @Html.DisplayFor(model => model.Number)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted">Capacity</label>
+                                <div class="detail-value">
+                                    <i class="bi bi-people me-2"></i>
+                                    <span class="badge bg-info">
+                                        @Html.DisplayFor(model => model.Capacity) Seats
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted">Status</label>
+                                <div class="detail-value">
+                                    @{
+                                        var statusClass = "secondary";
+                                        var statusIcon = "question-circle";
+
+                                        if (Model.Status?.ToLower() == "available")
+                                        {
+                                            statusClass = "success";
+                                            statusIcon = "check-circle";
+                                        }
+                                        else if (Model.Status?.ToLower() == "reserved")
+                                        {
+                                            statusClass = "warning";
+                                            statusIcon = "clock";
+                                        }
+                                        else if (Model.Status?.ToLower() == "occupied")
+                                        {
+                                            statusClass = "danger";
+                                            statusIcon = "x-circle";
+                                        }
+                                    }
+                                    <span class="badge bg-@statusClass">
+                                        <i class="bi bi-@statusIcon me-1"></i>
+                                        @Html.DisplayFor(model => model.Status)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <a href="@Url.Action("Edit", new { id = Model.TableId })" class="btn btn-primary me-2">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .detail-group {
+        margin-bottom: 1rem;
+    }
+
+        .detail-group label {
+            display: block;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+    .detail-value {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .badge {
+        padding: 0.5em 0.8em;
+        font-size: 0.9em;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        margin: 0 5px;
+    }
+
+    .bi {
+        font-size: 1.1rem;
+    }
+
+    hr {
+        opacity: 0.15;
+    }
+</style>

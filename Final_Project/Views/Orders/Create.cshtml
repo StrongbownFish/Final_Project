@@ -1,0 +1,301 @@
+﻿@model Final_Project.Models.Order
+
+@{
+    ViewBag.Title = "Create Order";
+}
+
+<div class="order-container">
+    <h2 class="order-title">
+        <i class="bi bi-journal-text"></i> Create New Order
+    </h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label>Customer</label>
+            @Html.DropDownList("CustomerId", null, "Select Customer", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="menu-items-section">
+            <h4>Order Items</h4>
+            <div id="menuItemsContainer">
+                <!-- Items will be added here -->
+            </div>
+            <button type="button" class="btn btn-success btn-add-item mt-3">
+                <i class="bi bi-plus-circle"></i> Add Menu Item
+            </button>
+        </div>
+
+        <div class="total-section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>Total Amount:</h4>
+                <span class="total-amount" id="totalAmount">$0.00</span>
+            </div>
+            @Html.HiddenFor(model => model.TotalAmount)
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Create Order</button>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+        </div>
+    }
+</div>
+
+<style>
+    .order-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin: 1rem 0;
+    }
+
+    .order-title {
+        color: #343a40;
+        border-bottom: 2px solid #ffc107;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .customer-section {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .menu-items-section {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .menu-item-row {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        background: white;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+
+    .total-section {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 6px;
+        margin-top: 1.5rem;
+    }
+
+    .total-amount {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .remove-item {
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+
+    .quantity-input {
+        width: 100px;
+    }
+
+    .create-btn {
+        padding: 0.5rem 2rem;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        // Core configuration
+        const config = {
+            menuItems: @Html.Raw(Json.Encode(ViewBag.MenuItems ?? new List<object>())),
+            selectors: {
+                container: '#menuItemsContainer',
+                totalDisplay: '#totalAmount',
+                totalInput: '#TotalAmount'
+            }
+        };
+
+        // Order Item Management
+        class OrderItem {
+            constructor(itemCount) {
+                this.id = itemCount;
+                this.element = this.createItemRow();
+                this.bindEvents();
+            }
+
+            createItemRow() {
+                const row = document.createElement('div');
+                row.className = 'menu-item-row';
+                row.id = `item-${this.id}`;
+                row.innerHTML = this.getRowTemplate();
+                return row;
+            }
+
+            getRowTemplate() {
+                return `
+                    <select name="MenuItemIds" class="form-control" style="flex: 2">
+                        <option value="">Select Menu Item</option>
+                        ${this.getMenuItemOptions()}
+                    </select>
+                    <input type="number" name="Quantities" class="form-control quantity-input"
+                           value="1" min="1">
+                    <span class="price-display">$0.00</span>
+                    <i class="bi bi-x-circle remove-item"></i>
+                `;
+            }
+
+            getMenuItemOptions() {
+                return config.menuItems.map(item => `
+                    <option value="${item.MenuItemId}" data-price="${item.Price}">
+                        ${item.Name} - $${item.Price.toFixed(2)}
+                    </option>
+                `).join('');
+            }
+
+            bindEvents() {
+                const select = this.element.querySelector('select');
+                const quantity = this.element.querySelector('.quantity-input');
+                const removeBtn = this.element.querySelector('.remove-item');
+
+                select.addEventListener('change', () => this.updatePrice());
+                quantity.addEventListener('change', () => this.updatePrice());
+                removeBtn.addEventListener('click', () => this.remove());
+            }
+
+            updatePrice() {
+                const select = this.element.querySelector('select');
+                const quantity = this.element.querySelector('.quantity-input').value;
+                const priceDisplay = this.element.querySelector('.price-display');
+                const selectedOption = select.selectedOptions[0];
+
+                if (selectedOption?.dataset.price) {
+                    const price = parseFloat(selectedOption.dataset.price) * quantity;
+                    priceDisplay.textContent = `$${price.toFixed(2)}`;
+                } else {
+                    priceDisplay.textContent = '$0.00';
+                }
+
+                OrderManager.updateTotalAmount();
+            }
+
+            remove() {
+                this.element.remove();
+                OrderManager.updateTotalAmount();
+            }
+
+            getSubtotal() {
+                const select = this.element.querySelector('select');
+                const quantity = this.element.querySelector('.quantity-input').value;
+                const selectedOption = select.selectedOptions[0];
+
+                if (selectedOption?.dataset.price) {
+                    return parseFloat(selectedOption.dataset.price) * parseFloat(quantity);
+                }
+                return 0;
+            }
+        }
+
+        class OrderManager {
+            static itemCount = 0;
+
+            static init() {
+                this.bindEvents();
+                this.addMenuItem(); // Add first item row
+            }
+
+            static bindEvents() {
+                $('.btn-add-item').click(() => {
+                    this.addMenuItem();
+                });
+
+                // Add event delegation for remove buttons
+                $(document).on('click', '.remove-item', function () {
+                    $(this).closest('.menu-item-row').remove();
+                    OrderManager.updateTotalAmount();
+                });
+
+                // Add event delegation for quantity changes and menu item selection
+                $(document).on('change', '.quantity-input, .menu-item-select', function () {
+                    OrderManager.updateTotalAmount();
+                });
+            }
+
+            static addMenuItem() {
+                const container = $('#menuItemsContainer');
+                const itemId = this.itemCount++;
+
+                const row = $('<div>', {
+                    class: 'menu-item-row',
+                    id: `item-${itemId}`
+                });
+
+                row.html(`
+            <select name="MenuItemIds" class="form-control menu-item-select" style="flex: 2">
+                <option value="">Select Menu Item</option>
+                ${this.getMenuItemOptions()}
+            </select>
+            <input type="number" name="Quantities" class="form-control quantity-input" 
+                   value="1" min="1" style="width: 100px">
+            <span class="price-display">$0.00</span>
+            <i class="bi bi-x-circle remove-item"></i>
+        `);
+
+                container.append(row);
+                this.updateTotalAmount();
+            }
+
+            static getMenuItemOptions() {
+                return config.menuItems.map(item =>
+                    `<option value="${item.MenuItemId}" data-price="${item.Price}">
+                ${item.Name} - $${item.Price.toFixed(2)}
+            </option>`
+                ).join('');
+            }
+
+            static updateTotalAmount() {
+                let total = 0;
+                $('.menu-item-row').each(function () {
+                    const select = $(this).find('.menu-item-select');
+                    const quantity = parseInt($(this).find('.quantity-input').val()) || 0;
+                    const selectedOption = select[0].selectedOptions[0];
+
+                    if (selectedOption && selectedOption.dataset.price) {
+                        const price = parseFloat(selectedOption.dataset.price);
+                        const subtotal = price * quantity;
+                        $(this).find('.price-display').text(`$${subtotal.toFixed(2)}`);
+                        total += subtotal;
+                    }
+                });
+
+                $('#totalAmount').text(`$${total.toFixed(2)}`);
+                $('#TotalAmount').val(total);
+            }
+        }
+
+        // Initialize when document is ready
+        $(document).ready(function () {
+            OrderManager.init();
+        });
+    </script>
+}

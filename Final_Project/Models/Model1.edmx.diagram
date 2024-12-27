@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="51da84b0e50e4f618da7405f64cbb6ea" Name="Diagram1" ZoomLevel="73">
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.Customer" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.MenuItem" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.Order" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.Payment" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.Reservation" Width="1.5" PointX="6" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.Table" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__Orders__Customer__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__Reservati__Custo__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__Orders__TableId__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__Payments__OrderI__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__Reservati__Table__3D5E1FD2" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="KTPhamRestaurantModel.OrderItem" Width="1.5" PointX="8.25" PointY="5.25" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__OrderItem__MenuI__70DDC3D8" />
+        <AssociationConnector Association="KTPhamRestaurantModel.FK__OrderItem__Order__6FE99F9F" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

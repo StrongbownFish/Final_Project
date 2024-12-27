@@ -1,0 +1,164 @@
+﻿@model Final_Project.Models.MenuItem
+
+@{
+    ViewBag.Title = "Menu Item Details";
+}
+
+<div class="container mt-5">
+    <div class="menu-card">
+        <div class="menu-header">
+            <h2>Menu Item Details</h2>
+        </div>
+        <div class="menu-content">
+            <div class="menu-item-details">
+                <div class="detail-row">
+                    <span class="label">@Html.DisplayNameFor(model => model.Name)</span>
+                    <span class="value">@Html.DisplayFor(model => model.Name)</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">@Html.DisplayNameFor(model => model.Price)</span>
+                    <span class="price-tag">$@Html.DisplayFor(model => model.Price)</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">@Html.DisplayNameFor(model => model.Description)</span>
+                    <span class="value description">@Html.DisplayFor(model => model.Description)</span>
+                </div>
+
+                <div class="action-buttons">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.MenuItemId }, new { @class = "edit-btn" })
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "back-btn" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .menu-card {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .menu-header {
+        background: linear-gradient(45deg, #ff4b2b, #ff416c);
+        padding: 1.5rem;
+        color: white;
+        text-align: center;
+    }
+
+    .menu-header h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .menu-content {
+        padding: 2rem;
+    }
+
+    .menu-item-details {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .detail-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px dashed #e0e0e0;
+    }
+
+    .label {
+        flex: 0 0 150px;
+        color: #666;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    .value {
+        flex: 1;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .price-tag {
+        background: #28a745;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .description {
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1rem;
+    }
+
+    .edit-btn, .back-btn {
+        padding: 0.8rem 2rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .edit-btn {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .back-btn {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .edit-btn:hover, .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+    }
+
+    @@media (max-width: 576px) {
+        .detail-row {
+            flex-direction: column;
+        }
+
+        .label {
+            margin-bottom: 0.5rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .edit-btn, .back-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>

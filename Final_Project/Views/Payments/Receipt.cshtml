@@ -1,0 +1,129 @@
+﻿@model Final_Project.Models.Payment
+
+<div class="receipt-container">
+    <div class="receipt-header">
+        <h2>Payment Receipt</h2>
+        <p class="receipt-info">Receipt #@Model.PaymentId</p>
+        <p class="receipt-date">@Model.PaymentTime.ToString()</p>
+    </div>
+
+    <div class="customer-section">
+        <h4>Customer Information</h4>
+        <p><strong>Name:</strong> @Model.Order.Customer.Name</p>
+    </div>
+
+    <div class="order-items">
+        <h4>Order Items</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Order.OrderItems)
+                {
+                    <tr>
+                        <td>@item.MenuItem.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@((item.Quantity * item.Price).ToString("C"))</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Total Amount:</strong></td>
+                    <td><strong>@Model.Amount.ToString("C")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="payment-details">
+        <h4>Payment Information</h4>
+        <p><strong>Method:</strong> @Model.PaymentMethod</p>
+        <p><strong>Payment Time:</strong> @Model.PaymentTime.ToString()</p>
+    </div>
+
+    <div class="mt-4">
+        <button onclick="window.print()" class="btn btn-primary">
+            <i class="bi bi-printer"></i> Print Receipt
+        </button>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+    </div>
+</div>
+
+<style>
+    .receipt-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .receipt-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #ffc107;
+    }
+
+    .receipt-info {
+        color: #666;
+        margin: 0.5rem 0;
+    }
+
+    .customer-section,
+    .order-items,
+    .payment-details {
+        margin-bottom: 2rem;
+    }
+
+    h4 {
+        color: #343a40;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+        .table th {
+            background-color: #f8f9fa;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table tfoot {
+            font-weight: bold;
+        }
+
+    .text-end {
+        text-align: right;
+    }
+
+    @@media print {
+        .mt-4 {
+            display: none;
+        }
+
+        .receipt-container {
+            box-shadow: none;
+            padding: 0;
+        }
+    }
+</style>

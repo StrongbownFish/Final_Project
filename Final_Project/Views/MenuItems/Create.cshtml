@@ -1,0 +1,81 @@
+﻿@model Final_Project.Models.MenuItem
+
+@{
+    ViewBag.Title = "Add Menu Item";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-plus-circle"></i> Add New Menu Item
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Description, new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "3" })
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Price, new { @class = "form-label" })
+                            @Html.EditorFor(m => m.Price, new { htmlAttributes = new { @class = "form-control", type = "number", step = "0.01" } })
+                            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        margin: 0 5px;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

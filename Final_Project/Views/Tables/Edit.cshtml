@@ -1,0 +1,108 @@
+﻿@model Final_Project.Models.Table
+
+@{
+    ViewBag.Title = "Edit Table";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-pencil-square"></i> Edit Table
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.TableId)
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Number, "Table Number", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Number, new
+                            {
+                                @class = "form-control",
+                                type = "text",
+                                placeholder = "Enter table number"
+                            })
+                            @Html.ValidationMessageFor(m => m.Number, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Capacity, "Seating Capacity", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Capacity, new
+                            {
+                                @class = "form-control",
+                                type = "text",
+                                placeholder = "Enter seating capacity"
+                            })
+                            @Html.ValidationMessageFor(m => m.Capacity, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Status, "Status", new { @class = "form-label" })
+                            @Html.DropDownListFor(m => m.Status,
+                                new SelectList(new[] { "Available", "Reserved" }),
+                                new { @class = "form-select", disabled = "disabled" })
+                            <small class="form-text text-muted">
+                                Status is automatically managed based on reservations
+                            </small>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        margin: 0 5px;
+    }
+
+    .text-muted {
+        font-size: 0.875rem;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Allow only numbers for table number and capacity
+            $('#Number, #Capacity').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+    </script>
+}

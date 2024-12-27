@@ -1,0 +1,114 @@
+﻿@model Final_Project.Models.Table
+
+@{
+    ViewBag.Title = "Create Table";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-grid-3x3"></i> Create New Table
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Number, "Table Number", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Number, new
+                            {
+                                @class = "form-control",
+                                maxlength = "10",
+                                placeholder = "Enter table number (e.g., 1A, VIP1)"
+                            })
+                            @Html.ValidationMessageFor(m => m.Number, "", new { @class = "text-danger" })
+                            <small class="text-muted">You can use letters and numbers (e.g., 1A, VIP1)</small>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Capacity, "Seating Capacity", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Capacity, new
+                            {
+                                @class = "form-control",
+                                type = "text",
+                                placeholder = "Enter number of seats"
+                            })
+                            @Html.ValidationMessageFor(m => m.Capacity, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Status, "Status", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Status, new
+                            {
+                                @class = "form-control",
+                                Value = "Available",
+                                @readonly = "readonly"
+                            })
+                            <small class="text-muted">Status is automatically set to Available for new tables</small>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Create
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        margin: 0 5px;
+    }
+
+    .text-muted {
+        font-size: 0.875rem;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Allow only numbers and letters for table number
+            $('#Number').on('input', function () {
+                this.value = this.value.replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+            });
+
+            // Allow only numbers for capacity
+            $('#Capacity').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+    </script>
+}

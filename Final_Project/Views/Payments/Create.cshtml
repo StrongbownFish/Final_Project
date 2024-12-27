@@ -1,0 +1,83 @@
+﻿@model Final_Project.Models.Payment
+
+<div class="payment-container">
+    <h2 class="page-title">Process Payment</h2>
+
+    <div class="order-details">
+        <h4>Order Details</h4>
+        <div class="info-grid">
+            <p><strong>Order ID:</strong> #@Model.OrderId</p>
+            <p><strong>Customer:</strong> @Model.Order.Customer.Name</p>
+            <p><strong>Total Amount:</strong> @Model.Order.TotalAmount.ToString("C")</p>
+            <p><strong>Status:</strong> <span class="status-badge status-@Model.Order.Status.ToLower()">@Model.Order.Status</span></p>
+        </div>
+
+        <div class="order-items mt-4">
+            <h5>Order Items</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Order.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.MenuItem.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>@((item.Price * item.Quantity).ToString("C"))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.OrderId)
+
+        <div class="form-group mt-4">
+            <label>Payment Method</label>
+            @Html.DropDownList("PaymentMethod", new SelectList(new[] { "Cash", "Banking", "Visa" }), "Select Payment Method", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PaymentMethod)
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Complete Payment</button>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#OrderId').change(function () {
+                var orderId = $(this).val();
+                if (orderId) {
+                    $.get('/Orders/GetOrderDetails/' + orderId, function (data) {
+                        $('#orderDetails').html(data);
+                    }).fail(function () {
+                        $('#orderDetails').html('<div class="alert alert-danger">Error loading order details</div>');
+                    });
+                } else {
+                    $('#orderDetails').empty();
+                }
+            });
+
+            // If there's a pre-selected order (e.g., from validation error), load its details
+            var initialOrderId = $('#OrderId').val();
+            if (initialOrderId) {
+                $('#OrderId').trigger('change');
+            }
+        });
+    </script>
+}

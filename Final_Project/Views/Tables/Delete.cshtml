@@ -1,0 +1,123 @@
+﻿@model Final_Project.Models.Table
+@{
+    ViewBag.Title = "Delete Table";
+}
+
+<div class="delete-container">
+    <div class="delete-header">
+        <h2 class="delete-title">
+            <i class="bi bi-trash"></i> Delete Table
+        </h2>
+    </div>
+
+    <div class="table-details-grid">
+        <div class="detail-card">
+            <div class="detail-label">Table Number</div>
+            <div class="detail-value">@Model.Number</div>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-label">Capacity</div>
+            <div class="detail-value">@Model.Capacity seats</div>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-label">Status</div>
+            <div class="detail-value">
+                <span class="status-badge status-@Model.Status.ToLower()">@Model.Status</span>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="action-buttons mt-4">
+            <button type="submit" class="btn btn-danger delete-btn">
+                <i class="bi bi-trash"></i> Delete Table
+            </button>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+        </div>
+    }
+</div>
+
+<style>
+   .delete-container {
+       background: #fff;
+       border-radius: 8px;
+       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+       padding: 2rem;
+       margin: 1rem 0;
+   }
+
+   .delete-header {
+       border-bottom: 2px solid #dc3545;
+       margin-bottom: 1.5rem;
+       padding-bottom: 0.5rem;
+   }
+
+   .delete-title {
+       color: #dc3545;
+       font-size: 1.75rem;
+       margin: 0;
+   }
+
+   .table-details-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+       gap: 1.5rem;
+       margin: 2rem 0;
+   }
+
+   .detail-card {
+       background: #f8f9fa;
+       padding: 1.25rem;
+       border-radius: 6px;
+       border-left: 4px solid #dee2e6;
+   }
+
+   .detail-label {
+       color: #6c757d;
+       font-size: 0.875rem;
+       margin-bottom: 0.5rem;
+   }
+
+   .detail-value {
+       color: #212529;
+       font-weight: 500;
+       font-size: 1.1rem;
+   }
+
+   .status-badge {
+       padding: 0.35rem 0.75rem;
+       border-radius: 20px;
+       font-size: 0.875rem;
+       font-weight: 500;
+   }
+
+   .status-available {
+       background-color: #d4edda;
+       color: #155724;
+   }
+
+   .status-occupied {
+       background-color: #fff3cd;
+       color: #856404;
+   }
+
+   .status-reserved {
+       background-color: #cce5ff;
+       color: #004085;
+   }
+
+   .delete-btn {
+       padding: 0.5rem 2rem;
+       font-weight: 500;
+   }
+
+   @@media (max-width: 768px) {
+       .table-details-grid {
+           grid-template-columns: 1fr;
+       }
+   }
+</style>

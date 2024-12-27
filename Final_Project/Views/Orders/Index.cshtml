@@ -1,0 +1,196 @@
+﻿@model IEnumerable<Final_Project.Models.Order>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<div class="order-container">
+    <div class="order-header">
+        <h2 class="order-title">
+            <i class="bi bi-journal-text"></i> Orders Management
+        </h2>
+        <a href="@Url.Action("Create")" class="action-btn btn-create">
+            <i class="bi bi-plus-circle"></i> Create New Order
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>@Html.DisplayNameFor(model => model.OrderTime)</th>
+                    <th>Customer</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>#@item.OrderId</td>
+                        <td>@item.OrderTime.ToString()</td>
+                        <td>@(item.Customer?.Name ?? "N/A")</td>
+                        <td>
+                            <span class="status-badge status-@item.Status?.ToLower()">
+                                @item.Status
+                            </span>
+                        </td>
+                        <td class="amount">@item.TotalAmount.ToString("C")</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="@Url.Action("Edit", new { id = item.OrderId })" class="action-btn btn-edit" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="@Url.Action("Details", new { id = item.OrderId })" class="action-btn btn-view" title="Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.OrderId })" class="action-btn btn-delete" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-4">
+            <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+            <p class="text-muted mt-2">No orders found</p>
+        </div>
+    }
+</div>
+
+<style>
+    .order-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #ffc107;
+    }
+
+    .order-title {
+        font-size: 1.75rem;
+        color: #343a40;
+        margin: 0;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+    .status-badge {
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-processing {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+
+    .status-completed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .btn-create {
+        background-color: #28a745;
+        color: white !important;
+    }
+
+        .btn-create:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+    .btn-edit {
+        background-color: #e3f2fd;
+        color: #117a8b !important;
+    }
+
+    .btn-view {
+        background-color: #e7f5ff;
+        color: #0056b3 !important;
+    }
+
+    .btn-delete {
+        background-color: #ffebee;
+        color: #dc3545 !important;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .amount {
+        font-family: monospace;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 768px) {
+        .order-header {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>

@@ -1,0 +1,160 @@
+﻿@model Final_Project.Models.Customer
+@{
+    ViewBag.Title = "Delete Customer";
+}
+
+<div class="delete-container">
+    <h2 class="delete-title">Delete Customer</h2>
+    <h3 class="delete-subtitle">Are you sure you want to delete this customer?</h3>
+
+    <div class="customer-info">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="delete-warning">
+        <i class="bi bi-exclamation-triangle warning-icon"></i>
+        <strong>Warning!</strong> Deleting this customer will:
+        <ul>
+            <li>Cancel all their pending reservations</li>
+            <li>Mark all their orders as completed</li>
+            <li>Remove their customer record</li>
+        </ul>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="action-buttons">
+            <input type="submit" value="Delete" class="btn delete-btn" />
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "back-link" })
+        </div>
+    }
+</div>
+
+<style>
+   .delete-container {
+       background: #fff;
+       border-radius: 8px;
+       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+       padding: 2rem;
+       margin: 1rem 0;
+   }
+
+   .delete-title {
+       color: #dc3545;
+       font-size: 1.75rem;
+       border-bottom: 2px solid #dc3545;
+       padding-bottom: 0.5rem;
+       margin-bottom: 1rem;
+   }
+
+   .delete-subtitle {
+       color: #6c757d;
+       font-size: 1.2rem;
+       margin-bottom: 2rem;
+   }
+
+   .customer-info {
+       background: #f8f9fa;
+       padding: 1.5rem;
+       border-radius: 6px;
+       margin-bottom: 2rem;
+       display: grid;
+       grid-template-columns: auto 1fr;
+       gap: 1rem;
+   }
+
+   .customer-info dt {
+       color: #495057;
+       font-weight: 600;
+       margin-bottom: 0.5rem;
+       min-width: 100px;
+   }
+
+   .customer-info dd {
+       color: #212529;
+       margin-bottom: 0.5rem;
+       margin-left: 0;
+   }
+
+   .delete-warning {
+       background-color: #fff3cd;
+       border-left: 4px solid #ffc107;
+       padding: 1.5rem;
+       margin-top: 2rem;
+       border-radius: 0 6px 6px 0;
+       color: #856404;
+   }
+
+   .warning-icon {
+       color: #ffc107;
+       font-size: 1.2rem;
+       margin-right: 0.5rem;
+   }
+
+   .delete-warning ul {
+       margin-top: 1rem;
+       padding-left: 2rem;
+   }
+
+   .delete-warning li {
+       margin-bottom: 0.5rem;
+   }
+
+   .action-buttons {
+       margin-top: 2rem;
+       padding-top: 1rem;
+       border-top: 1px solid #dee2e6;
+       display: flex;
+       gap: 1rem;
+   }
+
+   .delete-btn {
+       background-color: #dc3545;
+       color: white;
+       padding: 0.5rem 2rem;
+       border: none;
+       border-radius: 4px;
+       transition: background-color 0.3s;
+   }
+
+   .delete-btn:hover {
+       background-color: #c82333;
+   }
+
+   .back-link {
+       color: #6c757d;
+       text-decoration: none;
+       padding: 0.5rem 1rem;
+   }
+
+   .back-link:hover {
+       color: #343a40;
+       text-decoration: underline;
+   }
+
+   @@media (max-width: 768px) {
+       .customer-info {
+           grid-template-columns: 1fr;
+       }
+   }
+</style>

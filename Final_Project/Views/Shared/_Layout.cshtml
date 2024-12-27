@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KTPham Restaurant</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Navbar Styles */
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffc107 !important;
+        }
+
+        .nav-item {
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            font-size: 1.1rem;
+        }
+
+            .nav-link i {
+                margin-right: 5px;
+            }
+
+            .nav-link:hover {
+                color: #ffc107 !important;
+                transition: color 0.3s ease;
+            }
+
+        /* Layout Structure */
+        .body-content {
+            padding-top: 20px;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            background-color: #343a40;
+            border: 1px solid rgba(255,255,255,.15);
+        }
+
+        .dropdown-item {
+            color: #fff;
+        }
+
+            .dropdown-item:hover {
+                background-color: #495057;
+                color: #ffc107;
+            }
+
+        /* Social Icons */
+        .social-icons a {
+            font-size: 1.5rem;
+            margin: 0 10px;
+            color: #343a40;
+        }
+
+            .social-icons a:hover {
+                color: #ffc107;
+                transition: color 0.3s ease;
+            }
+
+        /* Contact Info */
+        .contact-info i {
+            width: 25px;
+            color: #ffc107;
+        }
+
+        /* Common Components */
+        .page-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .page-title {
+            color: #343a40;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1rem;
+        }
+
+            .data-table th {
+                background-color: #f8f9fa;
+                color: #495057;
+                padding: 1rem;
+                text-align: left;
+                border-bottom: 2px solid #dee2e6;
+                font-weight: 600;
+            }
+
+            .data-table td {
+                padding: 1rem;
+                border-bottom: 1px solid #e9ecef;
+                vertical-align: middle;
+            }
+
+            .data-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-processing {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-create {
+            background-color: #28a745;
+            color: white !important;
+        }
+
+        .btn-view {
+            background-color: #e7f5ff;
+            color: #0056b3 !important;
+        }
+
+        .btn-edit {
+            background-color: #e3f2fd;
+            color: #117a8b !important;
+        }
+
+        .btn-delete {
+            background-color: #ffebee;
+            color: #dc3545 !important;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+        }
+
+            .form-control:focus {
+                border-color: #ffc107;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+            }
+
+        /* Alerts */
+        .alert {
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .action-btn {
+                padding: 0.25rem 0.5rem;
+            }
+
+            .page-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("KTPham Restaurant", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Tables")">
+                            <i class="bi bi-grid-3x3"></i> Tables
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Reservations")">
+                            <i class="bi bi-calendar-check"></i> Reservations
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear"></i> Management
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Customers")">
+                                    <i class="bi bi-people"></i> Customers
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Index", "MenuItems")">
+                                    <i class="bi bi-card-list"></i> Menu Items
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Orders")">
+                                    <i class="bi bi-journal-text"></i> Orders
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Payments")">
+                                    <i class="bi bi-credit-card"></i> Payments
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <div class="mt-4">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer class="mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5 class="text-dark"><i class="bi bi-info-circle"></i> About Us</h5>
+                        <p class="contact-info">
+                            Welcome to KTPham Restaurant, where we serve delicious meals in a comfortable atmosphere.
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="text-dark"><i class="bi bi-clock"></i> Hours</h5>
+                        <p class="contact-info">
+                            <i class="bi bi-calendar3"></i> Mon - Fri: 11:00 AM - 10:00 PM<br>
+                            <i class="bi bi-calendar3"></i> Sat - Sun: 10:00 AM - 11:00 PM
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="text-dark"><i class="bi bi-telephone"></i> Contact</h5>
+                        <p class="contact-info">
+                            <i class="bi bi-geo-alt"></i> 123 Restaurant St.<br>
+                            <i class="bi bi-telephone"></i> (123) 456-7890<br>
+                            <i class="bi bi-envelope"></i> info@ktpham.com
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <div class="social-icons mb-3">
+                            <a href="#"><i class="bi bi-facebook"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                            <a href="#"><i class="bi bi-twitter"></i></a>
+                        </div>
+                        <p class="text-muted">&copy; @DateTime.Now.Year - KTPham Restaurant Management System</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

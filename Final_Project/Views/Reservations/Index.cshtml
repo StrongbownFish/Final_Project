@@ -1,0 +1,192 @@
+﻿@model IEnumerable<Final_Project.Models.Reservation>
+
+@{
+    ViewBag.Title = "Reservations";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-calendar-check"></i> Reservations</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> New Reservation
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Customer</th>
+                            <th>Table</th>
+                            <th>Reservation Time</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-circle me-2"></i>
+                                        <span>@Html.DisplayFor(modelItem => item.Customer.Name)</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-grid me-2"></i>
+                                        <span>Table @item.Table.Number (@item.Table.Capacity Seats)</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-clock me-2"></i>
+                                        <span>@item.ReservationTime.ToString("MMM dd, yyyy hh:mm tt")</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    @{
+                                        var statusClass = "secondary";
+                                        var statusIcon = "question-circle";
+                                        var status = item.Status?.ToLower();
+
+                                        if (status == "confirmed")
+                                        {
+                                            statusClass = "success";
+                                            statusIcon = "check-circle";
+                                        }
+                                        else if (status == "pending")
+                                        {
+                                            statusClass = "warning";
+                                            statusIcon = "hourglass-split";
+                                        }
+                                        else if (status == "cancelled")
+                                        {
+                                            statusClass = "danger";
+                                            statusIcon = "x-circle";
+                                        }
+                                        else if (status == "completed")
+                                        {
+                                            statusClass = "info";
+                                            statusIcon = "check-square";
+                                        }
+                                    }
+                                    <span class="badge bg-@statusClass">
+                                        <i class="bi bi-@statusIcon me-1"></i>
+                                        @item.Status
+                                    </span>
+
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", new { id = item.ReservationId })" class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.ReservationId })" class="btn btn-sm btn-outline-info" title="Details">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.ReservationId })" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-info-circle"></i> Legend
+                    </h5>
+                    <div class="d-flex flex-column gap-2 mt-3">
+                        <div><span class="badge bg-success">Confirmed</span> - Reservation is confirmed</div>
+                        <div><span class="badge bg-warning">Pending</span> - Awaiting confirmation</div>
+                        <div><span class="badge bg-danger">Cancelled</span> - Reservation was cancelled</div>
+                        <div><span class="badge bg-info">Completed</span> - Visit completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-clock"></i> Hours
+                    </h5>
+                    <p class="card-text">
+                        <i class="bi bi-calendar3"></i> Mon - Fri: 11:00 AM - 10:00 PM<br>
+                        <i class="bi bi-calendar3"></i> Sat - Sun: 10:00 AM - 11:00 PM
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-telephone"></i> Contact
+                    </h5>
+                    <p class="card-text">
+                        <i class="bi bi-geo-alt"></i> 123 Restaurant St.<br>
+                        <i class="bi bi-telephone"></i> (123) 456-7890<br>
+                        <i class="bi bi-envelope"></i> info@ktpham.com
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td {
+        vertical-align: middle;
+        padding: 1rem 0.75rem;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .badge {
+        padding: 0.5em 0.8em;
+        font-size: 0.9em;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .card-title {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .bi {
+        font-size: 1.1rem;
+    }
+</style>
